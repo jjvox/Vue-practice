@@ -3,54 +3,27 @@
     <div class="container">
       <h2 class="title">할 일 추가 앱</h2>
       <div class="add-area">
-        <input
-          v-model="todo"
-          type="text"
-          class="add-input"
-          placeholder="할 일을 적어 주세요"
-        />
-        <button class="add-button" type="button" @click="addTodo">추가</button>
+        <!-- v-model을 이용해서 자식 컴포넌트에 value 값을 전달하고 input이벤트에 의한 값도 받아서 업데이트 한다.   -->
+        <VInput v-model="todo" @enter="addTodo" class="add-area__button" />
+        <VButton @click="addTodo" variant="contained">추가</VButton>
       </div>
-      <ul class="todo-list">
-        <li class="todo-item" v-for="(item, index) in todoList" :key="index">
-          <div class="todo-area">
-            <input
-              class="todo-item__status"
-              type="checkbox"
-              v-model="item.isChecked"
-            />
-            <span v-if="!item.isUpdate" :class="{ isFinish: item.isChecked }"
-              >{{ item.name }}
-            </span>
-            <span v-else>
-              <input class="todo-item_text" type="text" v-model="item.name" />
-            </span>
-          </div>
-          <div class="button-area">
-            <font-awesome-icon
-              v-if="!item.isUpdate"
-              icon="fa-solid fa-pen-to-square"
-              @click="item.isUpdate = true"
-            />
-            <font-awesome-icon
-              v-else
-              icon="fa-solid fa-check"
-              @click="item.isUpdate = false"
-            />
-            <font-awesome-icon
-              icon="fa-solid fa-trash"
-              @click="deleteTodo(index)"
-            />
-          </div>
-        </li>
-      </ul>
+      <!-- props로 todoList를 자식 컴포넌트에 전달 해준다.  -->
+      <TodoList :todoList="todoList" @click="deleteTodo" />
     </div>
   </div>
 </template>
 
 <script>
+import VInput from "../components/common/VInput.vue";
+import VButton from "../components/common/VButton.vue";
+import TodoList from "../components/todo/TodoList.vue";
 export default {
   name: "homeView",
+  components: {
+    VInput,
+    VButton,
+    TodoList,
+  },
   data() {
     return {
       todo: "",
@@ -59,6 +32,7 @@ export default {
   },
   methods: {
     addTodo() {
+      if (!this.todo) return;
       const newTodo = {
         name: this.todo,
         isUpdate: false,
@@ -74,7 +48,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .home {
   width: 100%;
   height: 100vh;
@@ -95,70 +69,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: end;
-}
-.add-input {
-  width: 120px;
-  height: 30px;
-  outline: none;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  padding-left: 8px;
-  margin-right: 8px;
-}
-.add-input:hover {
-  border-color: rgba(0, 0, 0, 0.54);
-}
-.add-input:focus {
-  border-color: #00c4c4;
-}
-.add-button {
-  width: 80px;
-  height: 30px;
-  background-color: #00c4c4;
-  border: 1px solid #00c4c4;
-  color: #fff;
-  cursor: pointer;
-  margin: 16px 0;
-}
-.add-button:hover {
-  background-color: #00b2b2;
-  border-color: #00b2b2;
-}
-.todo-list {
-  width: 100%;
-}
-.todo-item {
-  width: 100%;
-  height: 30px;
-  border-bottom: 1px solid grey;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.button-area > svg {
-  cursor: pointer;
-  color: grey;
-  margin-left: 8px;
-}
-.todo-item_text {
-  width: 200px;
-  height: 30px;
-  outline: none;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  padding-left: 8px;
-  margin-right: 8px;
-}
-.todo-item_text:hover {
-  border-color: rgba(0, 0, 0, 0.54);
-}
-.todo-item_text:focus {
-  border-color: #00c4c4;
-}
-.todo-item__status {
-  margin-right: 8px;
-}
 
-.isFinish {
-  text-decoration: line-through;
+  &__button {
+    margin-right: 4px;
+  }
 }
 </style>
