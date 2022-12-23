@@ -28,7 +28,7 @@
         />
         <font-awesome-icon
           icon="fa-solid fa-trash"
-          @click="deleteItem(index)"
+          @click="deleteTodo(index)"
         />
       </div>
     </li>
@@ -49,6 +49,9 @@ export default {
   methods: {
     deleteItem(index) {
       this.$emit("click", index);
+    },
+    deleteTodo(index) {
+      this.$store.commit("deleteTodo", index);
     },
   },
 };

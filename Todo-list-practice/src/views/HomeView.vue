@@ -8,7 +8,7 @@
         <VButton @click="addTodo" variant="contained">추가</VButton>
       </div>
       <!-- props로 todoList를 자식 컴포넌트에 전달 해준다.  -->
-      <TodoList :todoList="todoList" @click="deleteTodo" />
+      <TodoList :todoList="todoList" />
     </div>
   </div>
 </template>
@@ -27,8 +27,12 @@ export default {
   data() {
     return {
       todo: "",
-      todoList: [],
     };
+  },
+  computed: {
+    todoList() {
+      return this.$store.state.todoList; //vuex로 부터 데이터 가져오기
+    },
   },
   methods: {
     addTodo() {
@@ -38,11 +42,9 @@ export default {
         isUpdate: false,
         isChecked: false,
       };
-      this.todoList.push(newTodo);
+      // this.todoList.push(newTodo);
+      this.$store.commit("addTodo", newTodo); // vuex에 값 전송
       this.todo = "";
-    },
-    deleteTodo(index) {
-      this.todoList = this.todoList.filter((item, idx) => idx !== index);
     },
   },
 };
