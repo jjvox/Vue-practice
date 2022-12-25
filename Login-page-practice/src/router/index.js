@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import SignInView from "../views/SignInView";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -11,11 +13,12 @@ const routes = [
     component: HomeView,
     beforeEnter: (to, from, next) => {
       // beforeEnter로 컴포넌트 진입 전에 수행. to는 어디로 가는지, from은 어디서 왔는지, next는 어떤실행을 할지 정한다.
-      const isLogin = false;
+      const isLogin = store.getters.isLogin;
       if (isLogin) {
         return next();
       }
       alert("로그인을 해야 합니다.");
+      return next("/login");
     },
   },
   {
@@ -26,6 +29,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
+  },
+  {
+    path: "/signIn",
+    name: "signIn",
+    component: SignInView,
   },
 ];
 

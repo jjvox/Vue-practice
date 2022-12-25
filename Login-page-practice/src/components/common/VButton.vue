@@ -31,7 +31,6 @@ export default {
   height: 30px;
   color: $white;
   cursor: pointer;
-  margin: 16px 0;
   transition-property: background-color, border-color, color, opacity;
   transition-duration: 0.2s;
   border-radius: 3px;
