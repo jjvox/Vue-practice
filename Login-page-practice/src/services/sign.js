@@ -23,7 +23,7 @@ import {
 // };
 
 export const signInFireBase = (id, password) => {
-  // firebase database 에 데이터 전달 (ex. 회원가입)
+  // firebase database 에 데이터 전달 (회원가입은 다른 인증방법을 사용 해야 함)
   const db = getDatabase();
   push(ref(db, "users/"), {
     username: id,
