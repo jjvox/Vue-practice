@@ -37,11 +37,19 @@ export default {
       default: "",
     },
   },
-  methods: {
-    change(event) {
-      this.$emit("input", event.target.value); // this.$emit 으로 부모 컴포넌트에 이벤트 이름(input)과 값(event.target.value)을 알려 준다.
-    },
+  setup(props, context) {
+    const change = (event) => {
+      context.emit("input", event.target.value);
+    };
+    return {
+      change,
+    };
   },
+  // methods: {
+  //   change(event) {
+  //     this.$emit("input", event.target.value); // this.$emit 으로 부모 컴포넌트에 이벤트 이름(input)과 값(event.target.value)을 알려 준다.
+  //   },
+  // },
 };
 </script>
 

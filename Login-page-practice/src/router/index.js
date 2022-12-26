@@ -6,7 +6,7 @@ import SignInView from "../views/SignInView";
 import { getRefreshToken } from "@/services/login";
 import UserView from "@/views/UserView";
 import UsersView from "@/views/UsersView";
-import NotFound from "./NotFound";
+import NotFound from "@/views/NotFound";
 
 Vue.use(VueRouter);
 

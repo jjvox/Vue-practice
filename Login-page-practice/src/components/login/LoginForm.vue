@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { ref } from "@vue/composition-api";
 import VInput from "@/components/common/VInput.vue";
 import VButton from "@/components/common/VButton.vue";
 import { loginUser } from "@/services/login";
@@ -23,22 +24,40 @@ export default {
     VInput,
     VButton,
   },
-  data() {
-    return {
-      id: "",
-      password: "",
-    };
-  },
-  methods: {
-    clickLogin(event) {
+  setup() {
+    const id = ref("");
+    const password = ref("");
+
+    const clickLogin = (event) => {
       const user = {
-        id: this.id,
-        password: this.password,
+        id: id.value,
+        password: password.value,
       };
       loginUser(user);
       event.preventDefault();
-    },
+    };
+    return {
+      id,
+      password,
+      clickLogin,
+    };
   },
+  // data() {
+  //   return {
+  //     id: "",
+  //     password: "",
+  //   };
+  // },
+  // methods: {
+  //   clickLogin(event) {
+  //     const user = {
+  //       id: this.id,
+  //       password: this.password,
+  //     };
+  //     loginUser(user);
+  //     event.preventDefault();
+  //   },
+  // },
 };
 </script>
 

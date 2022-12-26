@@ -15,10 +15,18 @@ export default {
   components: {
     VButton,
   },
-  methods: {
-    clickInfo() {
+  setup() {
+    const clickInfo = () => {
       getUserInfoList();
-    },
+    };
+    return {
+      clickInfo,
+    };
   },
+  // methods: {
+  //   clickInfo() {
+  //     getUserInfoList();
+  //   },
+  // },
 };
 </script>

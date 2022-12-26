@@ -17,11 +17,19 @@ export default {
       default: "contained", // contained, outlined
     },
   },
-  methods: {
-    clickEvent() {
-      this.$emit("click"); // 부모 컴포넌트에 click이벤트를 전달 한다.
-    },
+  setup(props, context) {
+    const clickEvent = () => {
+      context.emit("click");
+    };
+    return {
+      clickEvent,
+    };
   },
+  // methods: {
+  //   clickEvent() {
+  //     this.$emit("click"); // 부모 컴포넌트에 click이벤트를 전달 한다.
+  //   },
+  // },
 };
 </script>
 

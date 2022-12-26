@@ -1,26 +1,29 @@
 <template>
-  <form class="sign-in-form" @submit="clickSignIn(id, password, $event)">
+  <form
+    class="sign-in-form"
+    @submit="clickSignIn(user.id, user.password, $event)"
+  >
     <label>
       ID
-      <VInput class="sign-in-form__text" v-model="id" />
+      <VInput class="sign-in-form__text" v-model="user.id" />
     </label>
     <label>
       Password
       <VInput
         class="sign-in-form__text"
-        v-model="password"
+        v-model="user.password"
         type="password"
-        :isError="isError"
+        :isError="user.isError"
       />
     </label>
     <label>
       Confirm Password
       <VInput
         class="sign-in-form__text"
-        v-model="confirmPassword"
+        v-model="user.confirmPassword"
         type="password"
         @blur="checkPassword()"
-        :isError="isError"
+        :isError="user.isError"
         error-msg="비밀번호가 다릅니다."
       />
     </label>
@@ -29,33 +32,62 @@
 </template>
 
 <script>
+import { reactive } from "@vue/composition-api";
 import VInput from "@/components/common/VInput.vue";
 import VButton from "@/components/common/VButton.vue";
-import { signInUser } from "@/services/sign";
+import { signInFireBase, getUserInFirebase } from "@/services/sign";
+// import { signInUser } from "@/services/sign";
+
 export default {
   name: "SignInForm",
   components: {
     VInput,
     VButton,
   },
-  data() {
-    return {
+  setup() {
+    const user = reactive({
       id: "",
       password: "",
       confirmPassword: "",
       isError: false,
+    });
+
+    const checkPassword = () => {
+      user.isError = user.password !== user.confirmPassword;
+    };
+
+    const clickSignIn = (id, password, event) => {
+      event.preventDefault();
+      if (user.isError) return;
+      // signInUser({ id, password });
+      signInFireBase(id, password);
+    };
+
+    getUserInFirebase();
+    return {
+      user,
+      checkPassword,
+      clickSignIn,
     };
   },
-  methods: {
-    checkPassword() {
-      this.isError = this.password !== this.confirmPassword;
-    },
-    clickSignIn(id, password, event) {
-      event.preventDefault();
-      if (this.isError) return;
-      signInUser({ id, password });
-    },
-  },
+  // data() {
+  //   return {
+  //     id: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     isError: false,
+  //   };
+  // },
+  // methods: {
+  //   checkPassword() {
+  //     this.isError = this.password !== this.confirmPassword;
+  //   },
+  //   clickSignIn(id, password, event) {
+  //     event.preventDefault();
+  //     if (this.isError) return;
+  //     signInUser({ id, password });
+  //   },
+  // },
 };
 </script>
 
