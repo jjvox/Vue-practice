@@ -4,6 +4,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
 const privateKey = "secret";
+const refreshKey = "refresh";
 
 app.use(express.json());
 app.use(cors()); // 서버와 클라이언트의 도메인이 달라도 요청 가능하게 함.
@@ -20,7 +21,12 @@ app.post("/login", (req, res) => {
       // password도 일치 확인
       res.status(200).json({
         msg: "로그인 성공",
-        accessToken: jwt.sign({ usesrId: id }, privateKey), // 로그인에 성공하면 토큰을 만들어서 제공한다.
+        accessToken: jwt.sign({ usesrId: id }, privateKey, {
+          expiresIn: "30s",
+        }), // 로그인에 성공하면 토큰을 만들어서 제공한다.
+        refreshToken: jwt.sign({ usesrId: id }, refreshKey, {
+          expiresIn: "10h",
+        }), // accessToken 을 다시 받기 위한 refreshToken 발급
       });
     } else {
       res.status(500).send("비밀번호가 다릅니다.");
@@ -42,6 +48,40 @@ app.post("/signIn", (req, res) => {
     password,
   });
   res.send("회원가입 성공");
+});
+
+app.get("/userInfo", (req, res) => {
+  const accessToken = req.header("access-token");
+  jwt.verify(accessToken, privateKey, (err, decoded) => {
+    // 백엔드에서 accessToken 에 대한 검증을 함
+    if (err) {
+      if (err.name === "TokenExpiredError")
+        return res.status(401).send("토큰 유효기간 만료");
+      res.status(500).send("에러");
+      return;
+    }
+    res.status(200).json({
+      userInfo,
+    });
+  });
+});
+
+app.get("/refreshToken", (req, res) => {
+  const refreshToken = req.header("refresh-token");
+  jwt.verify(refreshToken, refreshKey, (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError")
+        return res.status(401).send("토큰 유효기간 만료");
+      res.status(500).send("에러");
+      return;
+    }
+    res.status(200).json({
+      accessToken: jwt.sign({ usesrId: decoded.id }, privateKey, {
+        //accessToken 이 만료 되면 refreshToken을 이용해 accessToekn을 다시 받아온다.
+        expiresIn: "30s",
+      }),
+    });
+  });
 });
 
 const port = 3000;

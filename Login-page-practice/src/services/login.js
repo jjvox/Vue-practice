@@ -1,6 +1,9 @@
-import axios from "./axios"; // baseUrl 수정을 거친 axios.js 모듈의 axios를 가져온다.
+import Vue from "vue";
+
+import axios from "./axios/axios"; // baseUrl 수정을 거친 axios.js 모듈의 axios를 가져온다.
 import router from "@/router";
-import store from "@/store";
+// import store from "@/store";
+import authAxios from "./axios/authAxios";
 
 // type user
 // param id
@@ -8,8 +11,21 @@ import store from "@/store";
 export const loginUser = async (user) => {
   try {
     const { data } = await axios.post("/login", user);
-    store.commit("setLogin", data.accessToken);
+    Vue.$cookies.set("accessToken", data.accessToken, "10s");
+    Vue.$cookies.set("refreshToken", data.refreshToken, "20s");
+    // store.commit("setLogin", data);
     router.push("/");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getRefreshToken = async () => {
+  try {
+    const { data } = await authAxios.get("/refreshToken");
+    console.log(data);
+    Vue.$cookies.set("accessToken", data.accessToken, "10s");
+    // store.commit("setAccessToken", data.accessToken); // refreshToken 으로 새로 받아온 accessToken을 store에 업데이트
   } catch (err) {
     console.log(err);
   }
