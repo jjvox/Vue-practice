@@ -4,6 +4,9 @@ import HomeView from "../views/HomeView.vue";
 import SignInView from "../views/SignInView";
 // import store from "@/store";
 import { getRefreshToken } from "@/services/login";
+import UserView from "@/views/UserView";
+import UsersView from "@/views/UsersView";
+import NotFound from "./NotFound";
 
 Vue.use(VueRouter);
 
@@ -35,9 +38,27 @@ const routes = [
       import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
   },
   {
+    path: "/users",
+    name: "users",
+    component: UsersView,
+  },
+  {
+    path: "/users/:id",
+    name: "users",
+    component: UserView,
+  },
+  {
     path: "/signIn",
     name: "signIn",
     component: SignInView,
+  },
+  {
+    path: "/notfound",
+    component: NotFound,
+  },
+  {
+    path: "*", // 위에서부터 쭈욱 확인 해도 해당하는 경로가 없는 모든 경우에 404 NotFound 페이지를 보여준다.
+    redirect: "/notfound",
   },
 ];
 

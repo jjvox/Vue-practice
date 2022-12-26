@@ -22,7 +22,7 @@ app.post("/login", (req, res) => {
       res.status(200).json({
         msg: "로그인 성공",
         accessToken: jwt.sign({ usesrId: id }, privateKey, {
-          expiresIn: "30s",
+          expiresIn: "30m",
         }), // 로그인에 성공하면 토큰을 만들어서 제공한다.
         refreshToken: jwt.sign({ usesrId: id }, refreshKey, {
           expiresIn: "10h",
@@ -66,6 +66,23 @@ app.get("/userInfo", (req, res) => {
   });
 });
 
+app.get("/userInfo/:id", (req, res) => {
+  const accessToken = req.header("access-token");
+  const { id } = req.params; //
+
+  jwt.verify(accessToken, privateKey, (err, decoded) => {
+    if (err) {
+      if (err.name === "TokenExpiredError")
+        return res.status(401).send("토큰 유효기간 만료");
+      res.status(500).send("에러");
+      return;
+    }
+    res.status(200).json({
+      user: userInfo.find((item) => item.id === id),
+    });
+  });
+});
+
 app.get("/refreshToken", (req, res) => {
   const refreshToken = req.header("refresh-token");
   jwt.verify(refreshToken, refreshKey, (err, decoded) => {
@@ -78,7 +95,7 @@ app.get("/refreshToken", (req, res) => {
     res.status(200).json({
       accessToken: jwt.sign({ usesrId: decoded.id }, privateKey, {
         //accessToken 이 만료 되면 refreshToken을 이용해 accessToekn을 다시 받아온다.
-        expiresIn: "30s",
+        expiresIn: "30m",
       }),
     });
   });
