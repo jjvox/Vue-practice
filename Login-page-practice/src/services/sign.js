@@ -1,4 +1,4 @@
-// import axios from "./axios/axios";
+import axios from "./axios/axios";
 import authAxios from "./axios/authAxios";
 import router from "@/router";
 import {
@@ -57,6 +57,24 @@ export const getUserInfo = async (id) => {
   try {
     const { data } = await authAxios.get(`/userInfo/${id}`);
     return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getGoogleUser = async () => {
+  try {
+    const googleAuth = window.gapi.auth2.getAuthInstance();
+    await googleAuth.signIn();
+    const googleUser = await googleAuth.currentUser.get();
+    const profile = await googleUser.getBasicProfile();
+
+    await axios.post("/signIn", {
+      id: profile.getId(),
+      email: profile.getEmail(),
+      name: profile.getName(),
+      isSocial: true,
+    });
   } catch (err) {
     console.log(err);
   }

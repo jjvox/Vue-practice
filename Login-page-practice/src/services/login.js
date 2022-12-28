@@ -2,7 +2,7 @@ import Vue from "vue";
 
 import axios from "./axios/axios"; // baseUrl 수정을 거친 axios.js 모듈의 axios를 가져온다.
 import router from "@/router";
-// import store from "@/store";
+import store from "@/store";
 import authAxios from "./axios/authAxios";
 
 // type user
@@ -18,6 +18,18 @@ export const loginUser = async (user) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const googleLogin = async () => {
+  const googleAuth = window.gapi.auth2.getAuthInstance();
+  await googleAuth.signIn();
+  const googleUser = await googleAuth.currentUser.get().getAuthResponse();
+  const token = googleUser.id_token;
+  socialLogin(token);
+};
+
+export const socialLogin = (token) => {
+  store.commit("setLogin", { accessToken: token, refreshToken: "" });
 };
 
 export const getRefreshToken = async () => {

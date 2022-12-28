@@ -5,6 +5,7 @@
       Password
       <VInput class="login-form__text" type="password" v-model="password" />
     </label>
+    <LoginGoogle />
     <VButton class="login-form__button" type="submit">로그인</VButton>
     <router-link to="/signIn">
       <VButton class="login-form__button" variant="outlined">회원가입</VButton>
@@ -17,12 +18,14 @@ import { ref } from "@vue/composition-api";
 import VInput from "@/components/common/VInput.vue";
 import VButton from "@/components/common/VButton.vue";
 import { loginUser } from "@/services/login";
+import LoginGoogle from "./LoginGoogle.vue";
 
 export default {
   name: "login-form",
   components: {
     VInput,
     VButton,
+    LoginGoogle,
   },
   setup() {
     const id = ref("");
@@ -42,22 +45,6 @@ export default {
       clickLogin,
     };
   },
-  // data() {
-  //   return {
-  //     id: "",
-  //     password: "",
-  //   };
-  // },
-  // methods: {
-  //   clickLogin(event) {
-  //     const user = {
-  //       id: this.id,
-  //       password: this.password,
-  //     };
-  //     loginUser(user);
-  //     event.preventDefault();
-  //   },
-  // },
 };
 </script>
 

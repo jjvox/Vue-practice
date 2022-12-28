@@ -38,7 +38,19 @@ app.post("/login", (req, res) => {
 
 app.post("/signIn", (req, res) => {
   // 회원가입 요청
-  const { id, password } = req.body;
+  const { id, password, isSocial, name, email } = req.body;
+
+  if (isSocial) {
+    userInfo.push({
+      id,
+      name,
+      email,
+      isSocial,
+    });
+    res.send("회원가입 성공");
+    return;
+  }
+
   if (userInfo.findIndex((item) => item.id === id) > -1) {
     res.status(500).send("이미 사용중인 아이디 입니다.");
     return;

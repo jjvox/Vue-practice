@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignInView from "../views/SignInView";
-// import store from "@/store";
+import store from "@/store";
 import { getRefreshToken } from "@/services/login";
 import UserView from "@/views/UserView";
 import UsersView from "@/views/UsersView";
@@ -72,8 +72,10 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   // 클라이언튼가 페이지에 접근 할때 로그인이 되어 있는지 여부를 바로 체크 (세부 페이지에 접근 하기 전에 전역적으로 먼저 한번 체크를 한다.)
   // 전역등록.
-  const accessToken = Vue.$cookies.get("accessToken");
-  const refreshToken = Vue.$cookies.get("refreshToken");
+  const accessToken =
+    Vue.$cookies.get("accessToken") || store.state.accessToken;
+  const refreshToken =
+    Vue.$cookies.get("refreshToken") || store.state.accessToken;
 
   if (to.meta.requireAuth && !accessToken && refreshToken) {
     // 로그인을 했던적이 있는 유저 (refresh토큰은 살아 있고 access토큰은 만료 된 상태)
@@ -83,9 +85,10 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireAuth && !refreshToken) {
     // 로그인을 하지 않은 유저
     next("/login");
-  } else {
-    next();
+    return;
   }
+  console.log(store.state);
+  next();
 });
 
 export default router;
