@@ -87,7 +87,6 @@ router.beforeEach(async (to, from, next) => {
     next("/login");
     return;
   }
-  console.log(store.state);
   next();
 });
 

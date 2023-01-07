@@ -10,8 +10,27 @@ import LoginForm from "@/components/login/LoginForm.vue";
 
 export default {
   name: "login-view",
+  mounted() {
+    this.getKakaoUserInfo();
+  },
   components: {
     LoginForm,
+  },
+  methods: {
+    getKakaoUserInfo() {
+      window.Kakao.API.request({
+        url: "/v2/user/me",
+        data: {
+          property_keys: ["kakao_account.email", "kakao_account.nickname"],
+        },
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

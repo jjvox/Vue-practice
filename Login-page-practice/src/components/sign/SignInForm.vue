@@ -31,6 +31,9 @@
     <VButton class="sign-in-form__button" @click="clickGoogle"
       >구글 회원가입</VButton
     >
+    <VButton class="sign-in-form__button" @click="clickKaKao"
+      >카카오 회원가입</VButton
+    >
   </form>
 </template>
 
@@ -42,6 +45,7 @@ import {
   signInFireBase,
   getUserInFirebase,
   getGoogleUser,
+  // signInSocial,
 } from "@/services/sign";
 
 export default {
@@ -73,12 +77,17 @@ export default {
       context.root.$router.push("/login");
     };
 
+    const clickKaKao = () => {
+      // signInSocial(id, email, name);
+    };
+
     getUserInFirebase();
     return {
       user,
       checkPassword,
       clickSignIn,
       clickGoogle,
+      clickKaKao,
     };
   },
 };

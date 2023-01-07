@@ -19,6 +19,10 @@ export default {
       });
     };
     window.initGoogle = init(); // window 전역에 initGoogle이 init()이라고 등록함.
+
+    window.Kakao.init("d9f2f1e633c1a7b8bbd4024e081f2c39");
+    window.Kakao.isInitialized();
+    return {};
   },
 };
 </script>

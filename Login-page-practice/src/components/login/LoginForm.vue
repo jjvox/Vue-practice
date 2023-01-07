@@ -6,6 +6,7 @@
       <VInput class="login-form__text" type="password" v-model="password" />
     </label>
     <LoginGoogle />
+    <LoginKaKao />
     <VButton class="login-form__button" type="submit">로그인</VButton>
     <router-link to="/signIn">
       <VButton class="login-form__button" variant="outlined">회원가입</VButton>
@@ -19,6 +20,7 @@ import VInput from "@/components/common/VInput.vue";
 import VButton from "@/components/common/VButton.vue";
 import { loginUser } from "@/services/login";
 import LoginGoogle from "./LoginGoogle.vue";
+import LoginKaKao from "./LoginKaKao.vue";
 
 export default {
   name: "login-form",
@@ -26,6 +28,7 @@ export default {
     VInput,
     VButton,
     LoginGoogle,
+    LoginKaKao,
   },
   setup() {
     const id = ref("");

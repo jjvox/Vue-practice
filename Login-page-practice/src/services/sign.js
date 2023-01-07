@@ -79,3 +79,16 @@ export const getGoogleUser = async () => {
     console.log(err);
   }
 };
+
+export const signInSocial = async (id, email, name) => {
+  try {
+    await axios.post("/signIn", {
+      id,
+      email,
+      name,
+      isSocial: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
