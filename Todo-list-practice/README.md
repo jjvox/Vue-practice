@@ -1,6 +1,6 @@
 # todo-list-practice
 
-vue2 를 이용한 간단한 TodoList 만들기.
+`vue2` 를 이용한 간단한 TodoList 만들기.
 
 ![0](https://user-images.githubusercontent.com/110772094/211157141-4ba3c174-3861-4f5f-9478-97e3749e70a6.PNG)
 
