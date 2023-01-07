@@ -1,24 +1,8 @@
 # todo-list-practice
 
-## Project setup
-```
-npm install
-```
+vue2 를 이용한 간단한 TodoList 만들기.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+React와 Angular의 장점을 모았다고 한다.
+사용법 자체는 제일 간단하지만 아직은 오히려 간단해서 더 어색한 느낌이 든다.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+-Zerobase TypeScript 강의 중-
