@@ -22,4 +22,4 @@ https://github.com/jjvox/Vue-practice/tree/master/2.%20Login-Page
 ![vue 02-1](https://user-images.githubusercontent.com/110772094/211716852-f1a529fc-ced0-4044-b902-9700a6e79516.PNG)
 
 
-Zerobase TypeScript 수업 중 실습.
+Zerobase Vue.js 수업 중 실습.
